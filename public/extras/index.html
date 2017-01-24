@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="BlogApp">
+<head>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+	<script src="app.js"></script>
+	<meta charset="utf-8">
+	<title>Blog</title>
+</head>
+<body>
+	<div class="container" ng-controller="BlogController">
+	<h1>Blog Post</h1>
+	<input class="form-control" ng-model="post.title" type="text" name="title" placeholder="title">
+	<textarea class="form-control" ng-model="post.body" placeholder="body"></textarea>
+	<button class="btn btn-primary btn-block" ng-click="createPost(post)">Post</button>
+	<button class="btn btn-success btn-block" ng-click="updatePost(post)">Update</button>
+ 	<div ng-repeat="post in posts">
+ 	<h2>{{post.title}}
+ 	 <a ng-click="editPost(post._id)" class="pull-right"><span class="glyphicon glyphicon-pencil"></span><a>	
+ 	 <a ng-click="deletePost(post._id)" class="pull-right"><span class="glyphicon glyphicon-remove"></span><a></h2>
+ 	<em>{{post.post}}</em>
+ 	<p>{{post.body}}</p>
+ 		
+
+ 	</div>
+
+ 	</div>
+
+</body>
+</html>
