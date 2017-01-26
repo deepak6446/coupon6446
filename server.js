@@ -14,6 +14,14 @@ app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded 
 app.use(bodyParser.urlencoded({ extended: true }))
 
+//start subscription
+var subSchema = mongoose.Schema({
+    email : String,
+    date : {type: Date,default: Date.now},
+    page : String
+},{collection:'subscription'});
+var subModel=mongoose.model("subSchema",subSchema);
+//end subscription
 //for BLOG post
 var PostSchema=mongoose.Schema({
 	title: {type: String,required: true},
@@ -44,7 +52,8 @@ var dealSchema=mongoose.Schema({
 	client : String,
 	subdiscount : String,
 	product : String,
-	image : String	
+	image : String,
+	date  : {type: Date,default:Date.now}
 
 },{collection:'deal'});
 var dealModel=mongoose.model("dealSchema",dealSchema);
@@ -60,6 +69,9 @@ var slideSchema=mongoose.Schema({
 var slideModel=mongoose.model("slideSchema",slideSchema);
 
 //end deal and slide upload
+//subscription
+app.post("/api/subemail",subemail);
+//end subscription
 //deal and slide model
 app.post("/api/uploaddeal",uploaddeal);
 app.post("/api/uploadslide",uploadslide);
@@ -79,9 +91,27 @@ app.put("/api/blogpost/:id",updatePost);
 //end blog post
 //login
 app.post("/api/signUpPage",createSignUp);
-app.get("/apt/loginoginaccount/:email",loginaccount);
+app.get("/apt/loginaccount/:email",loginaccount);
 //end login
 
+//subcription
+function subemail(req,res){
+    var emailsub=req.body;
+	console.log("in emailsubscription",emailsub.email);
+	subModel
+	       .create(emailsub)
+	       .then(
+	       		function(email){
+	       			console.log("emailsubscription succ	");
+
+	       		  },
+	       		function(err){
+	       			console.log("error subcription email");
+	       		}
+
+	       	);
+}
+//end subscription
 //get deal details start
 function todayoffers(req,res){
 
