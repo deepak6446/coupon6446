@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<script>
+var app = angular.module("myApp", ["ngRoute"]);
+app.config(function($routeProvider) {
+    $routeProvider
+    .when("/banana", {
+        templateUrl : "amazonhome2.html"
+    })
+    .when("/tomato", {
+        templateUrl : "signup.html"
+    })
+    .otherwise({
+        templateUrl : "index.html"
+    });
+});
+</script>
+
+<body ng-app="myApp">
+
+<p><a href="#/">Main</a></p>
+
+<a href="#banana">Banana</a>
+<a href="#tomato">Tomato</a>
+
+<p>Click on the links to change the content.</p>
+
+<p>Use the "otherwise" method to define what to display when none of the links are clicked.</p>
+
+<div ng-view></div>
+
+</body>
+</html>

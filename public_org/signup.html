@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="signup.js"></script>
+    <meta charset="utf-8">
+    <title>sign up</title>
+</head>
+<body>
+    <div class="container" ng-app="loginApp" ng-controller="loginController" >    
+        <a href="./index.html"><div align="right" class=" glyphicon glyphicon-remove mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2" style="margin-top:50px;">
+        </div></a> 
+            
+        <div id="loginbox"  class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2" ng-show="loginshow" >                    
+            <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <div class="panel-title">Sign In</div>
+                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
+                    </div>     
+
+                    <div style="padding-top:30px" class="panel-body" >
+                        <!-- login alert -->
+                        <div ng-show="alertshow" id="login-alert" class="alert alert-danger col-sm-12">
+                            <p> Email & Password combination is not correct</p>
+                        </div>
+                            
+                        <form id="loginform" class="form-horizontal" role="form" name="loginform">
+                                    
+                            <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input id="login-username" type="email" class="form-control" name="username" value="" placeholder="email" ng-model="scopedata.email" required>  
+                                        <span style="color:red" ng-show="loginform.username.$dirty && loginform.username.$invalid">
+                                        <span ng-show="loginform.username.$error.required">Email is required.</span>
+                                        <span ng-show="loginform.username.$error.email">Invalid email address.</span>
+                                        </span>                                   
+                            </div>
+                                
+                            <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input id="login-password" type="password" class="form-control" name="password" placeholder="password" ng-model="scopedata.password" required>
+                            </div>
+                                        
+                            <div class="input-group" ng-show="false">
+                                      <div class="checkbox">
+                                        <label>
+                                          <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
+                                        </label>
+                                      </div>
+                            </div>
+
+
+                                <div style="margin-top:10px" class="form-group">
+                                    <!-- Button -->
+
+                                    <div class="col-sm-12 ">
+                                      <a id="btn-login" class="btn btn-success" ng-click="loginaccount(scopedata.email)" ng-disabled="loginform.password.$dirty && loginform.password.$invalid || loginform.username.$dirty && loginform.username.$invalid">Login  </a>
+                                      <!--<a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a>-->
+
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-12 control">
+                                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                                            Don't have an account! 
+                                        <a ng-click="login()">
+                                            Sign Up Here
+                                        </a>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </form>     
+
+
+
+                        </div>                     
+                    </div>  
+        </div>
+        <div id="signupbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2" ng-show='!loginshow' >
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">Sign Up</div>
+                            <div style="float:right; font-size: 85%; position: relative; top:-10px">
+                            <a id="signinlink" ng-click="signin()">Sign In</a>
+                            </div>
+                        </div>  
+                        <div class="panel-body" >
+                            <form id="signupform" class="form-horizontal" role="form">
+                                
+                                <div id="signupalert" style="display:none" class="alert alert-danger">
+                                    <p>Error:</p>
+                                    <span></span>
+                                </div>
+                                    
+                                
+                                  
+                                <div class="form-group">
+                                    <label for="email" class="col-md-3 control-label">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="email" placeholder="Email Address" ng-model="scopedata.email" required>
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="firstname" class="col-md-3 control-label">First Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="firstname" placeholder="First Name" ng-model="scopedata.firstName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname" class="col-md-3 control-label">Last Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="lastname" placeholder="Last Name" ng-model="scopedata.lastame">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-md-3 control-label">Password</label>
+                                    <div class="col-md-9">
+                                        <input type="password" class="form-control" name="passwd" placeholder="Password" ng-model="scopedata.password" required="">
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <!-- Button -->                                        
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button ng-click="signup(scopedata)" id="btn-signup" type="button" class="btn btn-info" ><i class="icon-hand-right"></i> Sign Up</button>
+                                        <span style="margin-left:8px;"></span>  
+                                    </div>
+                                </div>
+                                
+                                <div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
+                                    
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <!--<button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>   Sign Up with Facebook</button> -->
+                                    </div>                                           
+                                        
+                                </div>
+                                
+                                
+                                
+                            </form>
+                         </div>
+                    </div>
+
+               
+               
+                
+         </div> 
+    </div>
+    
+</body>
+</html>    
+
+   

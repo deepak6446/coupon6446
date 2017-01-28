@@ -1,8 +1,65 @@
 
    angular
-       .module('MyApp', [])
+       .module('MyApp', ["ngRoute"])
        .controller('subCtrl',subCtrl)
-       .controller('MainCtrl',mainctrl);
+       .controller('MainCtrl',mainctrl)
+       .controller("homepagecont",homepagecont)
+       .controller("bodycontroller",bodycontroller)
+       .config(function ($routeProvider,$locationProvider){
+                $routeProvider
+                  .when("/",{
+                      templateUrl:"./index1.html",
+                      controller:"MainCtrl"
+
+                  })
+                  .when("/offers",{
+                      templateUrl:"./amazonhome2.html",
+                      controller: "homepagecont"
+                  })
+                  .otherwise({
+                      redirectTo: "/"
+                  })
+
+                  $locationProvider.html5Mode(true);
+
+       });
+
+  function bodycontroller($scope){
+        
+
+        function init(){
+            $scope.cli="Amazon";      
+          }
+          init();
+          $scope.callcli=callcli;
+
+        function callcli(data){
+          console.log("in callcli", data);
+          $scope.cli=data;
+
+        }  
+       
+  }
+  function homepagecont($scope,$http){
+
+      $scope.getAllOffers=getAllOffers;
+
+      
+      function getAllOffers(clidata){
+        
+                      console.log("clidata",clidata);
+          
+        $http 
+            .get("/api/getclientoffers/"+clidata)
+            .then(function(response) {
+              $scope.clients = response.data;
+          })
+                    .catch(function(response) {
+              console.error('Gists error', response.status, response.data);
+          });
+          
+      }  
+       }     
 
  function mainctrl($scope,$http,$interval) {
         

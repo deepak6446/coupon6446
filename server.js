@@ -80,7 +80,7 @@ app.post("/api/uploadslide",uploadslide);
 app.get("/api/gettodayoffers",todayoffers);
 //end today offer
 //get deal details start
-app.get("/api/getclientoffers",getAllOffers);
+app.get("/api/getclientoffers/:clidata",getAllOffers);
 //get deal details end
 //blog post
 app.post("/api/blogpost",createpost);
@@ -129,9 +129,10 @@ function todayoffers(req,res){
 			);
 }
 function getAllOffers(req,res){
-     console.log("in getAllOffers");
+	 var clidata=req.params.clidata;
+     console.log("in getAllOffers" ,clidata);
 	dealModel
-		.find()
+		.find({client:clidata}).sort({date:-1})
 		.then(
 			function(offers){
 				console.log(offers);
