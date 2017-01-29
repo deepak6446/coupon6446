@@ -309,5 +309,8 @@ function createpost(req,res){
 		)
 
 }
+app.get('/*', function(req, res){
+  res.sendFile(__dirname + '/public/index.html');
+});
 console.log("server is running");
 app.listen(3000);

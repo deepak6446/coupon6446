@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1,minimum-scale=1.0 maximum-scale=1.0">
   <title>JugaadDeal: Coupons, Cashback, Offers and Promo Code</title>
+  <base href="/">
   <script src="./angular.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -358,13 +359,12 @@
     text-align: center;
   }
 </style>
-<base href="/" />
 </head> 
 <body style="background-color:#E6E6FA" ng-app="MyApp" ng-controller="bodycontroller">
-<div class="bs-example">
+<div class="bs-example"   style="margin-top:4.5em" >
 <!--navigation bar start-->
 <section>
-  <nav role="navigation" class="navbar navbar-inverse " >
+  <nav role="navigation" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid"> 
       <div class="navbar-header">
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
@@ -396,7 +396,7 @@
   </nav>
 </section>    
 <!--navigation bar start-->
-<ng-view>
+<ng-view >
 </ng-view>
 
 <!--start of subscription-->

@@ -2,7 +2,8 @@
 <section ng-app="MyApp" ng-controller="homepagecont" ng-init="getAllOffers(cli)">
 	<div class="cont1">
 		<div class="sidebar">
-		  <div class="clientinfo">
+      <a href="{{clients[0].url}}" target="_blank">
+      <div class="clientinfo">
 	      <div class="clientdisp">
 		      <div class="clientlogo">
 	          <img class="img-responsive" src="./{{clients[0].client}}-logo.jpg">
@@ -10,18 +11,20 @@
 		    </div>
 	      <div class="merchant-offer-desc"> 
 	        <button class="merchantbtn">
-	          <a id="shop-at-client-button" class="merchant-show-btn hvr-icon-wobble-horizontal" style="color:white">Shop at {{clients[0].client}}
+	          <a class="merchant-show-btn hvr-icon-wobble-horizontal" style="color:white">Shop at {{clients[0].client}}
             </a>
           </button>
 	      </div>
 	    </div>
-			<div class="bgywllgn-cell">
+      </a>
+      <a href="./signup.html" target="_blank">
+      <div class="bgywllgn-cell">
         <h4>Login Now</h4>
         <p>For alerts on<br><span> {{clients[0].client}}'s</span> latest offers</p>
         <button class="loginbtn">
-        <a class="merchant-show-btn hvr-icon-wobble-horizontal" style="color:white;
-         font-size: 50%">Login Now</a></button>	
+        <a class="merchant-show-btn hvr-icon-wobble-horizontal" style="color:white;font-size: 50%">Login Now</a></button>	
 			</div>
+      </a>
 			<div style="margin-bottom:10px; background-color:white;width: 100%; padding-top: 10%">
 			  <div>
 				  <p style="margin-left:5%;">
@@ -52,7 +55,7 @@
 	      		</div>
 	      		<div class="cont12-1-2">
 	      			<div class="cont12-1-2-3">
-	      			 	<a href="client.url" id="shop-at-client-button" class="merchant-show-btn hvr-icon-wobble-horizontal" style="color:white">Get Deal</a>	
+	      			 	<a href="{{client.url}}" target="_blank" class="merchant-show-btn hvr-icon-wobble-horizontal" style="color:white">Get Deal </a>	
 	      			</div>
 	      			<div class="cont12-1-2-1" style="float:left">
 	      				 <p>{{client.title}}</p> 	
