@@ -34,28 +34,25 @@
           $scope.callcli=callcli;
 
         function callcli(data){
-          console.log("in callcli", data);
+          //console.log("in callcli", data);
           $scope.cli=data;
-
         }  
        
   }
   function homepagecont($scope,$http){
 
       $scope.getAllOffers=getAllOffers;
-
-      
+     
       function getAllOffers(clidata){
-        
-                      console.log("clidata",clidata);
+        //console.log("clidata",clidata);
           
         $http 
             .get("/api/getclientoffers/"+clidata)
             .then(function(response) {
               $scope.clients = response.data;
-          })
-                    .catch(function(response) {
-              console.error('Gists error', response.status, response.data);
+            })
+            .catch(function(response) {
+            //console.error('Gists error', response.status, response.data);
           });
           
       }  
@@ -65,25 +62,55 @@
         
         $scope.index = 0;
         $scope.todayoffers=todayoffers;
-        $scope.images = [
-          './Jabong.jpg',
-          './Flipkart.png',
-          './Myntra.jpg',
-          './shopclues.jpg',
-          './Amazon.png'
-        ];
+        $scope.indexcheck=indexcheck;
 
+        function makeindexfalse(){
+             $scope.in0 = false;
+             $scope.in1 = false;
+             $scope.in2 = false;
+             $scope.in3 = false;
+             $scope.in4 = false;
+        }
         $interval(function () {
-            if($scope.index >= ($scope.images.length-1))
+
+            if($scope.index >= 4)
             {
+                makeindexfalse();
                 $scope.index=0;
+                $scope.in0 = true;
             }
             else
             {
-                $scope.index=$scope.index+1;
+                $scope.index=$scope.index+1 ;
+                indexcheck();
+                
             }
-
         }, 2000);
+
+        function indexcheck(){
+                makeindexfalse();
+                if($scope.index==0)
+                {
+                   $scope.in0 = true;     
+                }
+                else if($scope.index==1)
+                {
+                   $scope.in1 = true;     
+                }
+                else if($scope.index==2)
+                {
+                   $scope.in2 = true;     
+                }
+                else if($scope.index==3)
+                {
+                   $scope.in3 = true;     
+                }
+                else if($scope.index==4)
+                {
+                   $scope.in4 = true;     
+                }
+
+        }
         function todayoffers(){
           console.log("in todayoffers");
             
@@ -105,6 +132,7 @@
           console.log("in subscribe",scopesub.email);
           $http
               .post("/api/subemail",scopesub);
+              
 
       }
 

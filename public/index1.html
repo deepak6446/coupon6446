@@ -1,15 +1,19 @@
 <!--Start of slide-->
 <section>
-  <div ng-controller="MainCtrl" >
+  <div ng-controller="MainCtrl" ng-init="in0='true<'">
     <div align="center">
       <div class="cont">
-        <img class=" imgcont img-responsive" align="center" style="cursor: pointer;" ng-src="{{images[index]}}">
+        <img ng-show="in0" class=" imgcont img-responsive" align="center" style="cursor: pointer;" src="./Jabong.jpg">
+        <img ng-show="in1" class=" imgcont img-responsive" align="center" style="cursor: pointer;" src="./Flipkart.png">
+        <img ng-show="in2" class=" imgcont img-responsive" align="center" style="cursor: pointer;" src="./Myntra.jpg">
+        <img ng-show="in3" class=" imgcont img-responsive" align="center" style="cursor: pointer;" src="./shopclues.jpg">
+        <img ng-show="in4" class=" imgcont img-responsive" align="center" style="cursor: pointer;" src="./Amazon.png">
           <div class="slidecont" style="background-color: #272e3a;padding-bottom: 1%;padding-top : 1% ;cursor: pointer;">
-            <div class="slidecont1" ng-mouseover="index=0" >Jabong Fashion Sale India</div>
-            <div class="slidecont1" ng-mouseover="index=1" >Flipkart Pre Public Sale</div>
-            <div class="slidecont1" ng-mouseover="index=2" >Myntra Fashion Sale India</div>
-            <div class="slidecont1" ng-mouseover="index=3" >Shopclues India's biggest Sale</div>
-            <div class="slidecont1" ng-mouseover="index=4" >Amazon Great Indian Sale</div>
+            <div class="slidecont1" ng-mouseover="index=0;indexcheck()" >Jabong Fashion Sale India</div>
+            <div class="slidecont1" ng-mouseover="index=1;indexcheck()" >Flipkart Pre Public Sale</div>
+            <div class="slidecont1" ng-mouseover="index=2;indexcheck()" >Myntra Fashion Sale India</div>
+            <div class="slidecont1" ng-mouseover="index=3;indexcheck()" >Shopclues India's biggest Sale</div>
+            <div class="slidecont1" ng-mouseover="index=4;indexcheck()" >Amazon Great Indian Sale</div>
           </div>
       </div>
     </div> 
@@ -50,7 +54,7 @@
   </div>
   <div class="content-wrapper" >
     <div>
-      <a class="pop-stories" href="offers" ng-click="callcli('Flipkart')">
+      <a class="pop-stories" href="offers" target="_blank" ng-click="callcli('Flipkart')">
          <div class="pop-store-box">
              <img class="top-store-logo" src="./Flipkart-logo.jpg">
              <div class="top-store-tag">10 offers 
@@ -58,7 +62,7 @@
          </div>
         
       </a>
-      <a class="pop-stories" href="offers" ng-click="callcli('Amazon')">
+      <a class="pop-stories" href="offers" target="_blank" ng-click="callcli('Amazon')">
          <div class="pop-store-box">
              <img class="top-store-logo" src="./Amazon-logo2.jpg">
              <div class="top-store-tag"> 15 offers </div>
