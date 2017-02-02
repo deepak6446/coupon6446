@@ -82,6 +82,9 @@ app.get("/api/gettodayoffers",todayoffers);
 //get deal details start
 app.get("/api/getclientoffers/:clidata",getAllOffers);
 //get deal details end
+//search offers
+app.get("/api/getsearchoffers/:text",searchoffers);
+//end search offers
 //blog post
 app.post("/api/blogpost",createpost);
 app.get("/api/blogpost",getAllPosts);
@@ -115,12 +118,12 @@ function subemail(req,res){
 //get deal details start
 function todayoffers(req,res){
 
- console.log("in todayoffers");
+ //console.log("in todayoffers");
  dealModel
-		.find()
+		.find().sort({date:-1}).limit(12)
 		.then(
 			function(offers){
-				console.log(offers);
+				//console.log(offers);
 				res.json(offers);
 			},
 			function(err){
@@ -135,7 +138,7 @@ function getAllOffers(req,res){
 		.find({client:clidata}).sort({date:-1})
 		.then(
 			function(offers){
-				console.log(offers);
+				//console.log(offers);
 			   res.json(offers);
 			},
 			function(err){
@@ -144,7 +147,26 @@ function getAllOffers(req,res){
 			);
 }
 //end blog post
+//search all  offers
+ function searchoffers(req,res){
+ 	var locate=req.params.text;
+ 	console.log(locate);
+    dealModel
+        .find({$text:{$search:locate}},{score:{$meta:"textScore"}}).sort({score:{$meta:"textScore"}}).limit(20)
+        .then(
+        	function(offers){
+        		res.json(offers);
+ 		        console.log(offers);
 
+        	},
+        	function(err){
+        		//console.log(err);
+        		res.sendStatus(400);
+        	}
+        );
+
+ }
+//end search all  offers
 //deal and slide model
 function uploaddeal(req,res){
 	var deal =req.body;
@@ -153,7 +175,7 @@ function uploaddeal(req,res){
     	.create(deal)
 		.then(
 			function(postobj){
-				res.json(200);
+					 res.json(200);
 			},
 			function(error){
 				console.log(error);
