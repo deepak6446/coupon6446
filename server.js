@@ -105,11 +105,13 @@ function subemail(req,res){
 	       .create(emailsub)
 	       .then(
 	       		function(email){
-	       			console.log("emailsubscription succ	");
+	       			//console.log("emailsubscription succ	");
+	       			res.sendStatus(200);
 
 	       		  },
 	       		function(err){
-	       			console.log("error subcription email");
+	       			//console.log("error subcription email");
+	       			res.sendStatus(400);
 	       		}
 
 	       	);

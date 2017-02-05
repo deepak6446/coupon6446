@@ -1,8 +1,12 @@
 <div>
-	<div class="panel panel-info">
-		<div class="panel-body">
+	<div class="panel panel-info" >
+		<div class="panel-body">	
 		    <div>     
 			<h1>Search Result</h1>
+			<h3 ng-show="search" style="color:red">
+				Your Query did not match any deal 
+				Search with a diffrent Query
+			</h3>
 			</div>
 			<div ng-repeat="offer in offers">
 				<div class="panel panel-info" style="width:70%;display: inline-block;overflow: hidden;">
@@ -16,9 +20,7 @@
 						<div class="cont12-1-2-3">
 	      			 		<a href="{{offer.url}}" target="_blank" class="merchant-show-btn hvr-icon-wobble-horizontal" style="color:white">Get Deal </a>	
 	      			    </div>
-					
-				
-			<div>	
+			<div>
 		</div>
 	</div>
 </div>

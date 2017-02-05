@@ -1,6 +1,6 @@
 
    angular
-       .module('MyApp', ["ngRoute"])
+       .module('MyApp', ["ngRoute","ngStorage"])
        .controller('subCtrl',subCtrl)
        .controller('MainCtrl',mainctrl)
        .controller("homepagecont",homepagecont)
@@ -32,17 +32,40 @@
 
        });
 
-  function bodycontroller($scope,$http){
+  function bodycontroller($scope,$http,$localStorage){
         
 
         function init(){
-            $scope.cli="Amazon";      
+          if($localStorage.login == 1)
+          {
+            $scope.login = false;
+          }    
+          else
+          {
+            $scope.login = true;
+          }
+          $scope.user = $localStorage.user;
         }
         init();
-
+        $scope.showlogin=showlogin;
         $scope.callcli=callcli;
         $scope.searchoffers=searchoffers;
+        $scope.logout=logout;
 
+        function logout(){
+          $localStorage.$reset();
+          console.log($localStorage);
+          $scope.login = true;
+        }
+
+        function showlogin(data){
+          $scope.login = !$scope.login;
+          $localStorage.user=JSON.stringify(data);
+          $scope.user=$localStorage.user;   
+          $localStorage.login = 1;        
+          console.log("in showlogin");
+
+        } 
         function callcli(data){
           //console.log("in callcli", data);
           $scope.cli=data;
@@ -52,17 +75,24 @@
                 .get("/api/getsearchoffers/"+text)
                 .then(function(res){
                     $scope.offers=res.data;
+                    if(res.data.length == 0){
+                      $scope.search = true;
+                      console.log("asdasd");
+                    }
+                    else{
+                      $scope.search = false ;
+                    }
                 })
                 .catch(function(res){
                   console.error('searchoffers error',res.status,res.data);
                 });
 
-          console.log("in searchoffers",text);
+          //console.log("in searchoffers",text);
         } 
        
   }
   
-  function loginController($scope,$http){
+  function loginController($scope,$http,$location){
 
       function init(){
 
@@ -78,10 +108,30 @@
     
 
     function loginaccount(scopeemail){
-      console.log("befor loginaccount : ",scopeemail);
+      //console.log("befor loginaccount : ",scopeemail);
       $http
         .get("/apt/loginaccount/"+scopeemail)
-        .success(function(sc1ope){
+        .then(function (sc1ope) {
+            //console.log("add : ",sc1ope);
+            //console.log("sc1ope.data.email : ",sc1ope.data.email,sc1ope.data.password);
+
+                    if($scope.scopedata.email == sc1ope.data.email && $scope.scopedata.password == sc1ope.data.password)
+                    {
+                      $scope.$parent.user=sc1ope.data.firstName;
+                      $scope.$parent.showlogin(sc1ope.data.firstName);
+                      $location.url('/');
+                    }
+                    else
+                    {
+                      $scope.alertshow = true;
+                    }
+
+        }, function(sc1ope) {
+            //some error
+            alert("Error login");
+            //console.log("error",sc1ope);
+        });        
+        /*.success(function(sc1ope){
           //var add=JSON.parse("sc1ope");
           //$scope.scopedata=sc1ope;
                     if($scope.scopedata.email == sc1ope.email && $scope.scopedata.password == sc1ope.password)
@@ -90,31 +140,40 @@
                     }
                     else
                     {
-                      $scope.alertshow=true;
+                      $scope.alertshow = true;
                     }
-        });
-      console.log("loginaccount : ",scopeemail);
+        });*/
+      //console.log("loginaccount : ",scopeemail);
     }
 
     function signin(){
-      console.log("in signin function");
+      //console.log("in signin function");
       $scope.loginshow=true;  
     }
     function login(){
-      console.log("in login function");
+      //console.log("in login function");
       $scope.loginshow=false; 
     }
     function signup(scopedata){
       $http.post("/api/signUpPage",scopedata)
-      .success(function(sc1ope){
-          var add=JSON.parse(sc1ope);
-          if (add == 200)
-          {
-            window.location.assign("./index.html")
-          }
-            });        
-      console.log("in signup function");
-      console.log(scopedata);
+      .then(function (sc1ope) {
+            //console.log("in sign up index.js",sc1ope.status);
+            var add=sc1ope.status;
+            if (add == 200)
+            {
+              sc1ope.data.firstName="";
+              $scope.$parent.showlogin(sc1ope.data.firstName);
+              $location.url('/');
+            }
+            //console.log("in sign up index.js",add);
+              
+        }, function(sc1ope) {
+            //some error
+            alert("Error signup try again");
+            //console.log("error",sc1ope);
+        });     
+      //console.log("in signup function");
+      //console.log(scopedata);
     }
   }
 
@@ -123,16 +182,16 @@
 
       $scope.getAllOffers=getAllOffers;
      
-      function getAllOffers(clidata){
-        //console.log("clidata",clidata);
+      function getAllOffers(){
+      //console.log("clidata",$scope.$parent.cli);
           
         $http 
-            .get("/api/getclientoffers/"+clidata)
+            .get("/api/getclientoffers/"+$scope.$parent.cli)
             .then(function(response) {
               $scope.clients = response.data;
             })
             .catch(function(response) {
-            console.error('Gists error', response.status, response.data);
+            //console.error('Gists error', response.status, response.data);
           });
           
       }  
@@ -192,7 +251,7 @@
 
         }
         function todayoffers(){
-          //console.log("in todayoffers");
+          console.log("in todayoffers");
             
             $http
                 .get("/api/gettodayoffers")
@@ -209,9 +268,15 @@
     $scope.subscribe=subscribe;
 
       function subscribe(scopesub){
-          console.log("in subscribe",scopesub.email);
+          //console.log("in subscribe",scopesub.email);
           $http
-              .post("/api/subemail",scopesub);
+              .post("/api/subemail",scopesub)
+              .then(function(response){
+                    alert("subscription successful");
+                  })
+                .catch(function(response){
+                    alert("subscription not successful");          
+                 });
               
 
       }
