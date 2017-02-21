@@ -16,14 +16,14 @@ app.get('/dee',function(req, res) {
     var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-            user: 'deepak.r.poojari@gmail.com', // Your email id
+            user: 'deepak547583@gmail.com', // Your email id
             pass: '966deepu@fb' // Your password
         }
     });
-    var text = 'Hello world from \n\n' + req.body.name;
+    var text = 'http://javascript.tutorialhorizon.com/2015/07/02/send-email-node-js-express/\n\n' + req.body.name;
     var mailOptions = {
-    from: 'deepak.r.poojari@gmail.com', // sender address
-    to: 'deepak.r.poojari@gmail.com', // list of receivers
+    from: 'deepak547583@gmail.com', // sender address
+    to: 'mohitbhartiya153@gmail.com', // list of receivers
     subject: 'Email Example', // Subject line
     text: text //, // plaintext body
     // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead

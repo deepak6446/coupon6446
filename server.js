@@ -1,6 +1,8 @@
 var express = require('express');
 var app =express();
+var nodemailer = require('nodemailer');
 var mongoose = require('mongoose');
+// Promise are used for mongoose asynchronous operations line save().then()
 mongoose.Promise = global.Promise;
 //creates a live connection to database
 mongoose.connect('mongodb://localhost/bogfall20161');
@@ -22,16 +24,6 @@ var subSchema = mongoose.Schema({
 },{collection:'subscription'});
 var subModel=mongoose.model("subSchema",subSchema);
 //end subscription
-//for BLOG post
-var PostSchema=mongoose.Schema({
-	title: {type: String,required: true},
-	body: String,
-	tag:{type:String,enum : ['politics','economy']},
-	post:{type: Date,default: Date.now}
-
-},{collection:'post'});
-var PostModel=mongoose.model("PostModel",PostSchema);
-//end for BLOG POST
 //login   
 var signUpSchema=mongoose.Schema({
 	email: String,
@@ -85,22 +77,65 @@ app.get("/api/getclientoffers/:clidata",getAllOffers);
 //search offers
 app.get("/api/getsearchoffers/:text",searchoffers);
 //end search offers
-//blog post
-app.post("/api/blogpost",createpost);
-app.get("/api/blogpost",getAllPosts);
-app.delete("/api/blogpost/:id",deletePost);
-app.get("/api/blogpost/:id",editPost);
-app.put("/api/blogpost/:id",updatePost);
-//end blog post
 //login
 app.post("/api/signUpPage",createSignUp);
 app.get("/apt/loginaccount/:email",loginaccount);
+//start forget password
+app.get("/api/forgetpass/:email",forgetpassword);
+//start forget password
 //end login
+//forgetpassword
+function forgetpassword(req,res){
+	var email=req.params.email;
+	var subject='Jugaaddeal password recovery';
+	var text='Your Jugaaddeal Password is :';
+	signUpModel
+	 	.find({email:email})
+	 	.then(
+	 		function(data){
+	 			text=text+data[0].password;
+	 			sendmail(data[0].email,subject,text);
+	 			res.sendStatus(200);
+	 		},
+	 		function(err){
+	 			res.sendStatus(400);
+	 			console.log("datanotfound");
+	 		}
 
-//subcription
+	 		)
+
+}
+//end forgetpassword
+function sendmail(toaddress,subject,text){
+	var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'deepak547583@gmail.com', // Your email id
+            pass: '6446deepak' // Your password
+        }
+    });
+    var mailOptions = {
+    from: 'deepak547583@gmail.com', // sender address
+    to: toaddress, // list of receivers
+    subject: subject, // Subject line
+    text: text //, // plaintext body
+    // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+    };
+    transporter.sendMail(mailOptions, function(error, info){
+    if(error){
+        console.log(error);
+    }else{
+        console.log('Message sent: ' + info.response);
+    };
+    });
+
+}
 function subemail(req,res){
     var emailsub=req.body;
+    var subject="Jugaaddeal.com subscription";
+    var text="You have successfully subscribed to Jugaaddeal.com";
 	console.log("in emailsubscription",emailsub.email);
+	sendmail(emailsub.email,subject,text);
 	subModel
 	       .create(emailsub)
 	       .then(
@@ -244,95 +279,6 @@ function createSignUp(req,res){
 	console.log("createSignUp",signUp,"req.params",req.params,"req.body",req.body);
 }
 //end login
-function updatePost(req,res){
-	var postId = req.params.id;
-	var post=req.params.body;
-
-    console.log(post.title);
-    console.log(post.body)
-	PostModel
-		.update({_id:postId},{
-			title: post.title,
-			body: post.body
-		})
-		.then(
-	 		function(status){
-	 			res.sendStatus(200);
-	 		},
-	 		function(err){
-	 			res.sendStatus(400);
-	 		}
-
-	 		)
-}
-
-function editPost(req,res){
-	var postId=req.params.id;
-	PostModel
-	 	.findById(postId)
-	 	.then(
-	 		function(post){
-	 			res.json(post);
-	 		},
-	 		function(err){
-	 			res.sendStatus(400);
-	 		}
-
-	 		)
-
-}
-
-function deletePost(req,res){
-		var postId=req.params.id;
-		console.log("delet post");
-	PostModel
-		.remove({_id:postId})
-		.then(
-				function(status){
-					res.sendStatus(200);
-				},
-				function(){
-					res.sendStatus(400);
-				}
-
-			);
-
-		
-}
-
-function getAllPosts(req,res){
-
-	PostModel
-		.find()
-		.then(
-			function(posts){
-			   res.json(posts);
-			},
-			function(err){
-				res.sendStatus(400);
-			}   
-			);
-
-}
-
-
-function createpost(req,res){
-
-	var post = req.body;
-	console.log(post);
-	PostModel
-		.create(post)
-		.then(
-			function(postobj){
-				res.json(200);
-			},
-			function(error){
-				res.sendStatus(400);
-			}
-
-		)
-
-}
 app.get('/*', function(req, res){
   res.sendFile(__dirname + '/public/index.html');
 });

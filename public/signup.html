@@ -1,12 +1,11 @@
-    <div class="container" ng-controller="loginController" style="margin-bottom:4em">    
+    <div class="container" ng-controller="loginController" style="margin-bottom:4em" ng-init="forgetpass=false">    
         <a href="index"><div align="right" class=" glyphicon glyphicon-remove mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2" style="margin-top:50px;">
         </div></a> 
-            
-        <div id="loginbox"  class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2" ng-show="loginshow" >                    
+        <div id="loginbox"  class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2" ng-show="!forgetpass && loginshow" > 
             <div class="panel panel-info" >
                     <div class="panel-heading">
                         <div class="panel-title">Sign In</div>
-                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
+                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#" ng-click="forgetpass=true">Forgot password?</a></div>
                     </div>     
 
                     <div style="padding-top:30px" class="panel-body" >
@@ -124,6 +123,36 @@
                                         <!--<button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>   Sign Up with Facebook</button> -->
                                     </div>     
                                 </div> 
+                            </form>
+                         </div>
+                    </div>
+
+               
+               
+                
+         </div> 
+         <div id="forgetpass" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2" ng-show='forgetpass'>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">Password will be send to your mail id.</div>
+                            <div style="float:right; font-size: 85%; position: relative; top:-10px">
+                            <a id="signinlink" ng-click="signin()">Sign In</a>
+                            </div>
+                        </div>  
+                        <div class="panel-body" >
+                            <form id="forgetpass" class="form-horizontal" role="form">
+                               <div class="form-group">
+                                    <label for="email" class="col-md-3 control-label">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="email" placeholder="Email Address" ng-model="scopedata.email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">                                     
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button ng-click="fortgetpassword(scopedata)" id="btn-signup" type="button" class="btn btn-info" ><i class="icon-hand-right"></i> Submit</button>
+                                        <span style="margin-left:8px;"></span>  
+                                    </div>
+                                </div>
                             </form>
                          </div>
                     </div>

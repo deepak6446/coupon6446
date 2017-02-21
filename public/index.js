@@ -20,7 +20,7 @@
                   .when("/search",{
                       templateUrl:"./search.html"
                   })
-                  .when("/signup",{
+                  .when("/form/:name",{
                       templateUrl:"signup.html",
                       controller:"loginController"
                   })
@@ -96,8 +96,15 @@
 
       function init(){
 
-      loginshow='true';
-      alertshow='false'
+            if($location.path() == '/form/login'){
+                loginshow=true;
+                console.log("in login");
+            }
+            else{
+              loginshow=false;
+              console.log("in signupgn")
+            }
+            alertshow='false';
        }
        init();
     $scope.login=login;
@@ -105,8 +112,26 @@
     $scope.signup=signup;
     $scope.loginshow=loginshow;
     $scope.loginaccount=loginaccount;
-    
+    $scope.fortgetpassword=fortgetpassword;
 
+    function fortgetpassword(scopedata){
+      $http
+          .get("/api/forgetpass/"+scopedata.email)
+          .then(function(response){
+            if(response.status == 200)
+            {
+              alert("Password send to your registered email address");
+            }
+            else
+            {
+              alert("Email address not registered Try Signup");
+            }
+          },function(error){
+            alert("error");
+          }
+          );
+
+    }  
     function loginaccount(scopeemail){
       //console.log("befor loginaccount : ",scopeemail);
       $http
@@ -131,24 +156,13 @@
             alert("Error login");
             //console.log("error",sc1ope);
         });        
-        /*.success(function(sc1ope){
-          //var add=JSON.parse("sc1ope");
-          //$scope.scopedata=sc1ope;
-                    if($scope.scopedata.email == sc1ope.email && $scope.scopedata.password == sc1ope.password)
-                    {
-                      window.location.assign("./index.html")
-                    }
-                    else
-                    {
-                      $scope.alertshow = true;
-                    }
-        });*/
-      //console.log("loginaccount : ",scopeemail);
+       
     }
 
     function signin(){
       //console.log("in signin function");
       $scope.loginshow=true;  
+      $scope.forgetpass=false;
     }
     function login(){
       //console.log("in login function");
