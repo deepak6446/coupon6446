@@ -8,7 +8,41 @@ mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/bogfall20161');
 //to parse objects that we send using http request we use body parser
 var bodyParser=require('body-parser');
+//upload files
+var multer = require('multer');
+/*app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "http://localhost");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+});*/
+var storage = multer.diskStorage({ //multers disk storage settings
+        destination: function (req, file, cb) {
+            cb(null, './public/')
+        },
+        filename: function (req, file, cb) {
+            var datetimestamp = Date.now();
 
+            console.log(file);
+            cb(null, file.originalname)
+            cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+        }
+    });
+    var upload = multer({ //multer settings
+                    storage: storage
+                }).single('file');
+    /** API path that will upload the files */
+    app.post('/upload', function(req, res) {
+    	console.log("in upload");
+        upload(req,res,function(err){
+            if(err){
+                 res.json({error_code:1,err_desc:err});
+                 console.log(err);
+                 return;
+            }
+             res.json({error_code:0,err_desc:null});
+        })
+    });
+//end upload files
 //all static content are in public directry 
 app.use(express.static(__dirname + '/public'));
 // parse application/json 
