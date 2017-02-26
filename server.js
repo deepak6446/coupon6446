@@ -73,10 +73,12 @@ app.get("/api/gettodayoffers",todayoffers);
 //end today offer
 //get deal details start
 app.get("/api/getclientoffers/:clidata",getAllOffers);
+app.get("/api/getalloffers",getlistoffers);
 //get deal details end
 //search offers
 app.get("/api/getsearchoffers/:text",searchoffers);
 //end search offers
+app.delete("/api/deleteoffer/:id",deleteoffer);
 //login
 app.post("/api/signUpPage",createSignUp);
 app.get("/apt/loginaccount/:email",loginaccount);
@@ -84,6 +86,17 @@ app.get("/apt/loginaccount/:email",loginaccount);
 app.get("/api/forgetpass/:email",forgetpassword);
 //start forget password
 //end login
+function deleteoffer(req,res){
+	var id=req.params.id;
+	console.log(id);
+	dealModel
+		.remove({_id:id})
+		.then(function(data){
+			res.sendStatus(200);
+		},function(error){
+			res.sendStatus(400);
+		});
+}
 //forgetpassword
 function forgetpassword(req,res){
 	var email=req.params.email;
@@ -167,6 +180,17 @@ function todayoffers(req,res){
 				res.sendStatus(400);
 			}   
 			);
+}
+function getlistoffers(req,res){
+	dealModel
+		.find().sort({date:-1})
+		.then(
+			function(offers){
+				res.json(offers);
+			},
+			function(err){
+				res.sendStatus(400);
+			});
 }
 function getAllOffers(req,res){
 	 var clidata=req.params.clidata;
@@ -279,8 +303,10 @@ function createSignUp(req,res){
 	console.log("createSignUp",signUp,"req.params",req.params,"req.body",req.body);
 }
 //end login
-app.get('/*', function(req, res){
+/*app.get('/*', function(req, res){
   res.sendFile(__dirname + '/public/index.html');
-});
+});*/
 console.log("server is running");
-app.listen(3000);
+app.listen(3000,function(){
+	console.log("server running on localhost:3000");
+});
