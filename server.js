@@ -158,7 +158,7 @@ function sendmail(toaddress,subject,text){
         service: 'Gmail',
         auth: {
             user: 'deepak547583@gmail.com', // Your email id
-            pass: '6446deepak' // Your password
+            pass: '' // Your password
         }
     });
     var mailOptions = {
