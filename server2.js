@@ -17,7 +17,7 @@ app.get('/dee',function(req, res) {
         service: 'Gmail',
         auth: {
             user: 'deepak547583@gmail.com', // Your email id
-            pass: '966deepu@fb' // Your password
+            pass: '' // Your password
         }
     });
     var text = 'http://javascript.tutorialhorizon.com/2015/07/02/send-email-node-js-express/\n\n' + req.body.name;
